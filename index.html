@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Agentic Travel Planner — Requirements</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>Travel Requirements</h1>
+      <p class="lead">Tell us about your trip. We'll use this to generate an itinerary with agentic middleware.</p>
+    </header>
+
+    <section class="card form-card">
+  <form id="requirementsForm" aria-labelledby="formHeading">
+        <div class="row">
+          <label id="formHeading" for="tripTitle">Trip name or title</label>
+          <input id="tripTitle" name="tripTitle" type="text" placeholder="Weekend in Tuscany" aria-describedby="titleHelp" />
+          <small id="titleHelp" class="muted">Optional short name for your trip</small>
+        </div>
+
+        <div class="row two-cols">
+          <div>
+            <label for="days">Number of days</label>
+            <input id="days" name="days" type="number" min="1" value="3" required aria-required="true" />
+          </div>
+
+          <div>
+            <label for="region">Preferred region / destination</label>
+            <input id="region" name="region" type="text" placeholder="e.g. Italy, Japan, Pacific Northwest" aria-label="Preferred region or destination" />
+          </div>
+        </div>
+
+        <div class="row two-cols">
+          <div>
+            <label for="budget">Budget (per person, approximate)</label>
+            <input id="budget" name="budget" type="text" placeholder="e.g. 1500 USD" inputmode="numeric" />
+          </div>
+
+          <div>
+            <label for="people">Number of people</label>
+            <input id="people" name="people" type="number" min="1" value="2" required aria-required="true" />
+          </div>
+        </div>
+
+        <fieldset aria-describedby="specialHelp">
+          <legend>Special considerations</legend>
+
+        <div class="row">
+          <label for="tentativeDates">Tentative dates (optional)</label>
+          <input id="tentativeDates" name="tentativeDates" type="text" placeholder="e.g. 2025-12-20 to 2025-12-27 or 2025-12-20,2025-12-27" />
+          <small class="muted">Provide tentative dates to allow searching events/flights (ISO dates preferred).</small>
+        </div>
+          <div class="checkboxes">
+            <label><input type="checkbox" name="kids" id="kids"> Traveling with kids</label>
+            <label><input type="checkbox" name="elderly" id="elderly"> Traveling with elderly</label>
+            <label><input type="checkbox" name="differentlyAbled" id="differentlyAbled"> Differently-abled accessible needs</label>
+          </div>
+          <small id="specialHelp" class="muted">Check any that apply</small>
+        </fieldset>
+
+        <fieldset>
+          <legend>Booking preferences</legend>
+          <div class="checkboxes">
+            <label><input type="checkbox" name="pref_flight" id="pref_flight"> Flights</label>
+            <label><input type="checkbox" name="pref_train" id="pref_train"> Trains</label>
+            <label><input type="checkbox" name="pref_car" id="pref_car"> Car rental</label>
+            <label><input type="checkbox" name="pref_bus" id="pref_bus"> Bus</label>
+          </div>
+          <small class="muted">Which transport/booking options should agents consider?</small>
+        </fieldset>
+
+        <div class="row">
+          <label for="weather">Weather / temperature preferences</label>
+          <select id="weather" name="weather">
+            <option value="any">No preference</option>
+            <option value="warm">Warm / Sunny</option>
+            <option value="mild">Mild / Temperate</option>
+            <option value="cool">Cool / Windy</option>
+            <option value="cold">Cold / Snowy</option>
+            <option value="rainy">Rainy / Wet</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <label for="food">Food preferences / dietary restrictions</label>
+          <input id="food" name="food" type="text" placeholder="e.g. Vegetarian, Halal, Seafood lover" />
+        </div>
+
+        <div class="row">
+          <label for="interests">Interests / trip focus</label>
+          <select id="interests" name="interests" multiple aria-label="Interests and trip focus">
+            <option value="sightseeing">Sightseeing & Culture</option>
+            <option value="nature">Nature & Outdoors</option>
+            <option value="adventure">Adventure & Sports</option>
+            <option value="relaxation">Relaxation & Spa</option>
+            <option value="food">Food & Dining</option>
+            <option value="shopping">Shopping</option>
+            <option value="history">History & Museums</option>
+          </select>
+          <small class="muted">Hold Ctrl/Cmd (or long-press on mobile) to select multiple</small>
+        </div>
+
+        <div class="row">
+          <label for="notes">Additional notes</label>
+          <textarea id="notes" name="notes" rows="4" placeholder="Any must-see places, mobility notes, preferred pace..."></textarea>
+        </div>
+
+        <div class="actions">
+          <button type="submit" id="generateBtn" class="primary">Generate Summary</button>
+          <button type="button" id="resetBtn">Reset</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card output-card">
+      <h2>Summary JSON</h2>
+      <pre id="jsonOutput" aria-live="polite">{} </pre>
+      <div class="refine">
+        <h3>Refine / Amend</h3>
+        <textarea id="amendments" placeholder="e.g. Make it 5 days, slower pace on day 3" rows="3"></textarea>
+        <div class="output-actions">
+          <button id="copyBtn">Copy JSON</button>
+          <button id="downloadBtn">Download JSON</button>
+          <button id="refineBtn">Refine Itinerary</button>
+        </div>
+      </div>
+      <div class="output-actions">
+        
+      </div>
+    </section>
+
+    <footer class="footer">
+      <small>Next: agentic middleware will consume this JSON to build an itinerary.</small>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

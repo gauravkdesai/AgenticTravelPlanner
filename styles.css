@@ -1,0 +1,48 @@
+:root{
+  --bg:#f7f8fb;
+  --card:#ffffff;
+  --muted:#667085;
+  --accent:#0b5fff;
+  --radius:12px;
+  --max-width:960px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: linear-gradient(180deg,#f3f6ff 0%,var(--bg) 100%);
+  color:#0b1220;
+  margin:0;
+  padding:32px 16px;
+  display:flex;
+  justify-content:center;
+}
+.container{
+  width:100%;
+  max-width:var(--max-width);
+}
+header h1{margin:0 0 6px}
+.lead{color:var(--muted); margin-top:0}
+.card{background:var(--card); border-radius:var(--radius); padding:18px; box-shadow:0 6px 24px rgba(12,24,65,0.06); margin-bottom:18px}
+.form-card{padding:20px}
+.row{margin-bottom:12px}
+.two-cols{display:flex; gap:12px}
+.two-cols > div{flex:1}
+label{display:block; font-weight:600; margin-bottom:6px}
+input[type="text"], input[type="number"], select, textarea{width:100%; padding:10px 12px; border-radius:8px; border:1px solid #e6e9f2; background:#fff}
+select[multiple]{min-height:88px}
+fieldset{border:1px dashed #e6e9f2; padding:12px; border-radius:8px}
+legend{font-weight:700}
+.checkboxes{display:flex; gap:12px; flex-wrap:wrap}
+.muted{color:var(--muted); font-size:12px}
+.actions{display:flex; gap:10px; margin-top:8px}
+button{padding:10px 14px; border-radius:10px; cursor:pointer; border:1px solid transparent}
+button.primary{background:var(--accent); color:#fff; border-color:rgba(11,95,255,0.2)}
+button:not(.primary){background:#fff}
+.output-card pre{background:#0b1220; color:#e6f0ff; padding:12px; border-radius:8px; max-height:320px; overflow:auto}
+.output-actions{display:flex; gap:8px; margin-top:10px}
+.footer{color:var(--muted); text-align:center}
+@media (max-width:640px){
+  .two-cols{flex-direction:column}
+  body{padding:18px}
+}
