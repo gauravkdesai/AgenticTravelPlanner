@@ -1,0 +1,72 @@
+# Development Environment Configuration
+# Overrides for application.yml in development
+
+# OpenAI Configuration (Development)
+openai:
+  timeout: 30
+  max-retries: 1
+  temperature: 0.9
+
+# Agent Configuration (Development)
+agent:
+  flight:
+    max-options: 3
+    timeout: 15
+  hotel:
+    max-options: 3
+    timeout: 15
+  transport:
+    max-options: 3
+    timeout: 15
+  event:
+    max-options: 5
+    timeout: 15
+  weather:
+    timeout: 15
+  question:
+    max-questions: 2
+    timeout: 15
+  planner:
+    timeout: 30
+
+# Security Configuration (Development - Relaxed)
+security:
+  rate-limit:
+    requests-per-minute: 100
+    burst-capacity: 200
+  cors:
+    allowed-origins: "*"
+  input-validation:
+    max-request-size: 10MB
+
+# Logging Configuration (Development - Verbose)
+logging:
+  level:
+    com.agentictravel: DEBUG
+    org.springframework.web: INFO
+    org.springframework.security: DEBUG
+    org.springframework.cache: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# Cache Configuration (Development - Short TTL)
+cache:
+  questions:
+    ttl: 300
+    max-size: 50
+  weather:
+    ttl: 1800
+    max-size: 100
+  events:
+    ttl: 3600
+    max-size: 50
+
+# Management/Actuator Configuration (Development - Exposed)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

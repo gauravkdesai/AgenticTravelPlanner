@@ -10,7 +10,12 @@ public class FakeLLMClient implements LLMClient {
     }
 
     @Override
-    public CompletableFuture<String> prompt(String prompt) {
+    public String getName() {
+        return "fake";
+    }
+
+    @Override
+    public CompletableFuture<String> prompt(String prompt, String modelName) {
         return CompletableFuture.completedFuture(cannedResponse);
     }
 }
