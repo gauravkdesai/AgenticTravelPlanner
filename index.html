@@ -115,8 +115,25 @@
       </form>
     </section>
 
+    <section class="card questions-card" id="questionsCard" style="display: none;">
+      <h2>Clarifying Questions</h2>
+      <p id="questionsContext">Please answer these questions to help us create a better itinerary for you.</p>
+      <div id="questionsContainer"></div>
+      <div class="actions">
+        <button id="skipQuestionsBtn" class="secondary">Skip Questions</button>
+        <button id="submitAnswersBtn" class="primary">Generate Itinerary</button>
+      </div>
+    </section>
+
     <section class="card output-card">
-      <h2>Summary JSON</h2>
+      <h2>Travel Itinerary</h2>
+      <div id="itineraryDisplay" style="display: none;">
+        <div id="itinerarySummary"></div>
+        <div id="dayPlansContainer"></div>
+        <div id="bookingOptionsContainer"></div>
+        <div id="eventsContainer"></div>
+        <div id="weatherContainer"></div>
+      </div>
       <pre id="jsonOutput" aria-live="polite">{} </pre>
       <div class="refine">
         <h3>Refine / Amend</h3>
@@ -126,9 +143,6 @@
           <button id="downloadBtn">Download JSON</button>
           <button id="refineBtn">Refine Itinerary</button>
         </div>
-      </div>
-      <div class="output-actions">
-        
       </div>
     </section>
 

@@ -42,7 +42,49 @@ button:not(.primary){background:#fff}
 .output-card pre{background:#0b1220; color:#e6f0ff; padding:12px; border-radius:8px; max-height:320px; overflow:auto}
 .output-actions{display:flex; gap:8px; margin-top:10px}
 .footer{color:var(--muted); text-align:center}
+
+/* Questions UI */
+.question-item{margin-bottom:16px}
+.question-item label{display:block; font-weight:600; margin-bottom:6px}
+.question-item select, .question-item textarea{width:100%; padding:10px 12px; border-radius:8px; border:1px solid #e6e9f2; background:#fff}
+.question-item textarea{min-height:60px; resize:vertical}
+.required{color:#e74c3c}
+
+/* Itinerary Display */
+.day-plan{background:#f8f9fa; border-radius:8px; padding:16px; margin-bottom:16px; border-left:4px solid var(--accent)}
+.day-header{margin-bottom:12px}
+.day-activities{display:flex; flex-direction:column; gap:12px}
+.activity{display:flex; gap:12px; padding:12px; background:#fff; border-radius:6px; border:1px solid #e6e9f2}
+.activity-time{min-width:80px; font-weight:600; color:var(--accent)}
+.activity-details{flex:1}
+.activity-details p{margin:4px 0; font-size:14px}
+
+/* Booking Options */
+.booking-option{background:#fff; border:1px solid #e6e9f2; border-radius:8px; padding:16px; margin-bottom:12px}
+.booking-option h5{margin:0 0 8px; color:var(--accent)}
+.booking-option p{margin:4px 0; font-size:14px}
+.pros-cons{display:flex; gap:16px; margin:8px 0; font-size:13px}
+.pros{color:#27ae60}
+.cons{color:#e74c3c}
+.select-btn{background:var(--accent); color:#fff; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; font-size:14px}
+.select-btn:hover{background:#0a4fd6}
+
+/* Events */
+.event-item{background:#fff; border:1px solid #e6e9f2; border-radius:8px; padding:16px; margin-bottom:12px}
+.event-item h5{margin:0 0 8px; color:var(--accent)}
+.event-item p{margin:4px 0; font-size:14px}
+
+/* Weather */
+.weather-day{background:#fff; border:1px solid #e6e9f2; border-radius:6px; padding:12px; margin-bottom:8px}
+.weather-day p{margin:4px 0; font-size:14px}
+
+/* Secondary button style */
+button.secondary{background:#6c757d; color:#fff; border-color:rgba(108,117,125,0.2)}
+
 @media (max-width:640px){
   .two-cols{flex-direction:column}
   body{padding:18px}
+  .activity{flex-direction:column; gap:8px}
+  .activity-time{min-width:auto}
+  .pros-cons{flex-direction:column; gap:8px}
 }

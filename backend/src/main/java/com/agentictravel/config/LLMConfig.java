@@ -1,21 +1,22 @@
 package com.agentictravel.config;
 
-import com.agentictravel.llm.GeminiLLMClient;
+import com.agentictravel.llm.OpenAILLMClient;
 import com.agentictravel.llm.LLMClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class LLMConfig {
 
-    @Value("${GEMINI_PROJECT_ID}")
-    private String projectId;
+    @Value("${OPENAI_API_KEY}")
+    private String apiKey;
 
-    @Value("${GEMINI_LOCATION}")
-    private String location;
+    @Value("${OPENAI_MODEL:gpt-3.5-turbo}")
+    private String model;
 
     @Bean
     public LLMClient llmClient(){
-        return new GeminiLLMClient(projectId, location);
+        return new OpenAILLMClient(apiKey, model);
     }
 }

@@ -2,6 +2,7 @@ package com.agentictravel.api;
 
 import com.agentictravel.model.Itinerary;
 import com.agentictravel.model.TripRequest;
+import com.agentictravel.model.QuestionResponse;
 import com.agentictravel.services.AgentCoordinator;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,12 @@ public class ItineraryController {
 
     public ItineraryController(AgentCoordinator coordinator) {
         this.coordinator = coordinator;
+    }
+
+    @PostMapping("/questions")
+    public CompletableFuture<ResponseEntity<QuestionResponse>> generateQuestions(@RequestBody TripRequest request) {
+        return coordinator.generateQuestions(request)
+                .thenApply(questions -> ResponseEntity.ok(questions));
     }
 
     @PostMapping
