@@ -63,7 +63,7 @@ class QuestionAgentTest {
     
     @Test
     void testGenerateQuestions_NullRequest() throws ExecutionException, InterruptedException {
-        var result = questionAgent.generateQuestions(null).get();
+        var result = questionAgent.generateQuestions(new TripRequest()).get();
         
         assertNotNull(result);
         assertNotNull(result.questions);

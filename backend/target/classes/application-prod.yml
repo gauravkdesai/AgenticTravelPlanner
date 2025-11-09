@@ -1,0 +1,93 @@
+# Production Environment Configuration
+# Overrides for application.yml in production
+
+# OpenAI Configuration (Production)
+openai:
+  timeout: 60
+  max-retries: 3
+  temperature: 0.7
+
+# Agent Configuration (Production)
+agent:
+  flight:
+    max-options: 5
+    timeout: 30
+  hotel:
+    max-options: 5
+    timeout: 30
+  transport:
+    max-options: 5
+    timeout: 30
+  event:
+    max-options: 10
+    timeout: 30
+  weather:
+    timeout: 30
+  question:
+    max-questions: 4
+    timeout: 30
+  planner:
+    timeout: 60
+
+# Security Configuration (Production - Strict)
+security:
+  rate-limit:
+    requests-per-minute: 10
+    burst-capacity: 20
+  cors:
+    allowed-origins: ${CORS_ORIGINS:https://yourdomain.com}
+    allowed-methods: GET,POST,OPTIONS
+    allowed-headers: Content-Type,Authorization,X-Requested-With
+  input-validation:
+    max-request-size: 1MB
+
+# Logging Configuration (Production - Structured)
+logging:
+  level:
+    com.agentictravel: INFO
+    org.springframework.web: WARN
+    org.springframework.security: WARN
+    org.springframework.cache: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: /var/log/agentic-travel/application.log
+    max-size: 50MB
+    max-history: 30
+
+# Cache Configuration (Production - Longer TTL)
+cache:
+  questions:
+    ttl: 3600
+    max-size: 1000
+  weather:
+    ttl: 21600
+    max-size: 10000
+  events:
+    ttl: 86400
+    max-size: 5000
+
+# Management/Actuator Configuration (Production - Restricted)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: never
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+# Server Configuration (Production)
+server:
+  port: 8080
+  servlet:
+    context-path: /
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024

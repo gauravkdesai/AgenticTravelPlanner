@@ -20,11 +20,22 @@ public class OpenAILLMClient implements LLMClient {
     private final String apiUrl = "https://api.openai.com/v1/chat/completions";
     
     public OpenAILLMClient(String apiKey, String model) {
+        this(apiKey, model, HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(30)).build());
+    }
+
+    /**
+     * Test-friendly constructor that accepts a pre-built HttpClient (e.g., a mock).
+     */
+    public OpenAILLMClient(String apiKey, String model, HttpClient httpClient) {
+        if (apiKey == null || apiKey.isEmpty()) {
+            throw new NullPointerException("apiKey");
+        }
+        if (model == null || model.isEmpty()) {
+            throw new NullPointerException("model");
+        }
         this.apiKey = apiKey;
         this.model = model;
-        this.httpClient = HttpClient.newBuilder()
-                .connectTimeout(Duration.ofSeconds(30))
-                .build();
+        this.httpClient = httpClient;
         this.objectMapper = new ObjectMapper();
     }
     

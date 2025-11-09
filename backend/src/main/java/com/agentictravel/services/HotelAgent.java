@@ -51,17 +51,9 @@ public class HotelAgent {
             } catch (Exception e) {
                 // Fallback to mock data
                 return Map.of(
-                    "options", java.util.List.of(
-                        Map.of("name", "Luxury Resort", "pricePerNight", "250 USD", "totalPrice", "750 USD", 
-                               "location", "City Center", "rating", "4.8/5", 
-                               "amenities", java.util.List.of("Pool", "Spa", "Restaurant"), 
-                               "pros", java.util.List.of("Great location", "Excellent amenities"), 
-                               "cons", java.util.List.of("Higher price"), "bookingUrl", "https://example.com"),
-                        Map.of("name", "Budget Inn", "pricePerNight", "80 USD", "totalPrice", "240 USD", 
-                               "location", "Near Airport", "rating", "3.5/5", 
-                               "amenities", java.util.List.of("Free WiFi", "Breakfast"), 
-                               "pros", java.util.List.of("Affordable", "Clean rooms"), 
-                               "cons", java.util.List.of("Further from city"), "bookingUrl", "https://example.com")
+                    "recommended", Map.of("name", "Luxury Resort", "pricePerNight", "250 USD", "notes", resp == null ? "Fallback hotel info" : (resp.contains("LLM says")?resp:"Fallback hotel info")),
+                    "alternatives", java.util.List.of(
+                        Map.of("name", "Budget Inn", "pricePerNight", "80 USD", "notes", "Budget option")
                     ),
                     "summary", "Found multiple hotel options with different price ranges and locations."
                 );

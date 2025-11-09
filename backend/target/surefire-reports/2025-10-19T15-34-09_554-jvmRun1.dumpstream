@@ -1,0 +1,9 @@
+# Created at 2025-10-19T15:34:39.091
+java.lang.ClassNotFoundException: com.agentictravel.services.WeatherAgentTest
+
+# Created at 2025-10-19T15:34:40.360
+java.lang.ClassNotFoundException: com.agentictravel.services.FlightAgentTest
+
+# Created at 2025-10-19T15:34:41.510
+java.lang.ClassNotFoundException: com.agentictravel.services.LLMToModelMapperTest
+

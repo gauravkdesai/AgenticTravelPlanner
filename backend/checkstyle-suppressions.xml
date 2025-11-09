@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+    "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+    "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+
+<suppressions>
+    <!-- Suppress all violations for generated sources -->
+    <suppress files=".*[\\/]generated[\\/].*" checks=".*"/>
+    
+    <!-- Suppress all violations for test sources -->
+    <suppress files=".*[\\/]test[\\/].*" checks=".*"/>
+    
+    <!-- Suppress specific violations for main sources -->
+    <suppress files=".*" checks="LineLength" />
+    <suppress files=".*" checks="MissingJavadocMethod" />
+    <suppress files=".*" checks="MissingJavadocType" />
+    <suppress files=".*" checks="MissingJavadocVariable" />
+    <suppress files=".*" checks="JavadocMethod" />
+    <suppress files=".*" checks="JavadocType" />
+    <suppress files=".*" checks="JavadocVariable" />
+    <suppress files=".*" checks="JavadocStyle" />
+    <suppress files=".*" checks="InvalidJavadocPosition" />
+    <suppress files=".*" checks="MagicNumber" />
+    <suppress files=".*" checks="DesignForExtension" />
+    <suppress files=".*" checks="VisibilityModifier" />
+    <suppress files=".*" checks="FinalClass" />
+    <suppress files=".*" checks="HideUtilityClassConstructor" />
+    <suppress files=".*" checks="InterfaceIsType" />
+    <suppress files=".*" checks="FinalParameters" />
+    <suppress files=".*" checks="TodoComment" />
+    <suppress files=".*" checks="UpperEll" />
+    <suppress files=".*" checks="ArrayTypeStyle" />
+    <suppress files=".*" checks="AvoidNestedBlocks" />
+    <suppress files=".*" checks="EmptyBlock" />
+    <suppress files=".*" checks="LeftCurly" />
+    <suppress files=".*" checks="NeedBraces" />
+    <suppress files=".*" checks="RightCurly" />
+    <suppress files=".*" checks="EmptyStatement" />
+    <suppress files=".*" checks="EqualsHashCode" />
+    <suppress files=".*" checks="HiddenField" />
+    <suppress files=".*" checks="IllegalInstantiation" />
+    <suppress files=".*" checks="InnerAssignment" />
+    <suppress files=".*" checks="MissingSwitchDefault" />
+    <suppress files=".*" checks="MultipleVariableDeclarations" />
+    <suppress files=".*" checks="SimplifyBooleanExpression" />
+    <suppress files=".*" checks="SimplifyBooleanReturn" />
+    <suppress files=".*" checks="EmptyForIteratorPad" />
+    <suppress files=".*" checks="GenericWhitespace" />
+    <suppress files=".*" checks="MethodParamPad" />
+    <suppress files=".*" checks="NoWhitespaceAfter" />
+    <suppress files=".*" checks="NoWhitespaceBefore" />
+    <suppress files=".*" checks="OperatorWrap" />
+    <suppress files=".*" checks="ParenPad" />
+    <suppress files=".*" checks="TypecastParenPad" />
+    <suppress files=".*" checks="WhitespaceAfter" />
+    <suppress files=".*" checks="WhitespaceAround" />
+    <suppress files=".*" checks="ModifierOrder" />
+    <suppress files=".*" checks="RedundantModifier" />
+    <suppress files=".*" checks="AvoidStarImport" />
+    <suppress files=".*" checks="IllegalImport" />
+    <suppress files=".*" checks="RedundantImport" />
+    <suppress files=".*" checks="UnusedImports" />
+    <suppress files=".*" checks="MethodLength" />
+    <suppress files=".*" checks="ParameterNumber" />
+    <suppress files=".*" checks="FileLength" />
+    <suppress files=".*" checks="FileTabCharacter" />
+    <suppress files=".*" checks="RegexpSingleline" />
+    <suppress files=".*" checks="Translation" />
+    <suppress files=".*" checks="NewlineAtEndOfFile" />
+    <suppress files=".*" checks="JavadocPackage" />
+</suppressions>

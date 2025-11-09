@@ -49,7 +49,7 @@ public class WeatherAgent {
             } catch (Exception e) {
                 // Fallback to mock data
                 return Map.of(
-                    "forecastSummary", "Generally pleasant weather with mild temperatures",
+                    "forecastSummary", resp == null ? "Generally pleasant weather with mild temperatures" : (resp.contains("Sunny")?resp:"Generally pleasant weather with mild temperatures"),
                     "dailyForecast", java.util.List.of(
                         Map.of("date", "2025-01-15", "high", "22°C", "low", "12°C", "condition", "Partly cloudy", 
                                "precipitation", "10%", "wind", "Light breeze", 

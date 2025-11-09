@@ -3,10 +3,12 @@ package com.agentictravel.api;
 import com.agentictravel.model.Itinerary;
 import com.agentictravel.model.TripRequest;
 import com.agentictravel.services.AgentCoordinator;
+import com.agentictravel.validation.TripRequestValidator;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +24,10 @@ public class ItineraryControllerTest {
                 return CompletableFuture.completedFuture(sample);
             }
         };
-        ItineraryController ctrl = new ItineraryController(coord);
+        TripRequestValidator validator = Mockito.mock(TripRequestValidator.class);
+        Mockito.when(validator.validate(Mockito.any())).thenReturn(
+            new TripRequestValidator.ValidationResult(new ArrayList<>(), new ArrayList<>()));
+        ItineraryController ctrl = new ItineraryController(coord, validator);
         TripRequest req = new TripRequest();
         var fut = ctrl.createItinerary(req);
         var resp = fut.get();

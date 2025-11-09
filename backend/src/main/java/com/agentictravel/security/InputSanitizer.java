@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Component
 public class InputSanitizer {
     
-    private static final Logger log = LoggerFactory.getLogger(InputSanitizer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(InputSanitizer.class);
     
     // Patterns for detecting potentially malicious content
     private static final Pattern SCRIPT_PATTERN = Pattern.compile("(?i)<script[^>]*>.*?</script>");
@@ -50,7 +50,7 @@ public class InputSanitizer {
         
         // Check for excessive special characters (potential encoding attack)
         if (EXCESSIVE_SPECIAL_CHARS.matcher(sanitized).find()) {
-            log.warn("Input contains excessive special characters, truncating: {}", 
+            LOG.warn("Input contains excessive special characters, truncating: {}", 
                 sanitized.substring(0, Math.min(50, sanitized.length())));
             sanitized = EXCESSIVE_SPECIAL_CHARS.matcher(sanitized).replaceAll("");
         }
@@ -60,7 +60,7 @@ public class InputSanitizer {
         
         // Truncate if too long
         if (sanitized.length() > maxLength) {
-            log.warn("Input truncated from {} to {} characters", sanitized.length(), maxLength);
+            LOG.warn("Input truncated from {} to {} characters", sanitized.length(), maxLength);
             sanitized = sanitized.substring(0, maxLength).trim();
         }
         
@@ -122,16 +122,16 @@ public class InputSanitizer {
         try {
             int value = Integer.parseInt(input.trim());
             if (value <= 0) {
-                log.warn("Invalid positive integer input: {}, using default: {}", value, defaultValue);
+                LOG.warn("Invalid positive integer input: {}, using default: {}", value, defaultValue);
                 return defaultValue;
             }
             if (value > maxValue) {
-                log.warn("Integer input {} exceeds maximum {}, using maximum", value, maxValue);
+                LOG.warn("Integer input {} exceeds maximum {}, using maximum", value, maxValue);
                 return maxValue;
             }
             return value;
         } catch (NumberFormatException e) {
-            log.warn("Invalid integer input: {}, using default: {}", input, defaultValue);
+            LOG.warn("Invalid integer input: {}, using default: {}", input, defaultValue);
             return defaultValue;
         }
     }

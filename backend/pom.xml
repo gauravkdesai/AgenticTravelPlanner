@@ -87,16 +87,22 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.9.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.3.1</version>
+            <version>5.11.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+            <version>1.14.17</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 
     <build>
         <plugins>
@@ -107,14 +113,25 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                    <!-- no explicit fork/compilerExecutable to avoid mismatched javac flags on some environments -->
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
                 <configuration>
                     <!-- Force forking but use the java executable from JAVA_HOME so tests run with the user's JDK -->
                     <forkCount>1</forkCount>
                     <reuseForks>false</reuseForks>
-                    <forkedProcessExecutable>${env.JAVA_HOME}/bin/java</forkedProcessExecutable>
-                    <argLine>-Xmx512m</argLine>
+                    <!-- Enable Byte Buddy experimental support on very new JDKs (e.g. Java 25) so Mockito/inline mocks can instrument
+                         classes during tests. Keep the memory setting as well. -->
+                    <argLine>-Dnet.bytebuddy.experimental=true -Xmx512m</argLine>
                 </configuration>
             </plugin>
             

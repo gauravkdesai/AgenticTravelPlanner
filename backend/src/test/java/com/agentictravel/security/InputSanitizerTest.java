@@ -34,7 +34,7 @@ class InputSanitizerTest {
     void testSanitizeText_RemoveScriptTags() {
         String input = "Hello <script>alert('xss')</script> World";
         String result = sanitizer.sanitizeText(input, 100);
-        assertEquals("Hello  World", result);
+        assertEquals("Hello World", result);
     }
     
     @Test
@@ -70,7 +70,7 @@ class InputSanitizerTest {
     void testSanitizeTripTitle() {
         String input = "My <script>alert('xss')</script> Trip to Paris";
         String result = sanitizer.sanitizeTripTitle(input);
-        assertEquals("My  Trip to Paris", result);
+        assertEquals("My Trip to Paris", result);
         assertTrue(result.length() <= 200);
     }
     

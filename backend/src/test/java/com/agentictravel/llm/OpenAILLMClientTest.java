@@ -28,7 +28,7 @@ class OpenAILLMClientTest {
     
     @BeforeEach
     void setUp() {
-        client = new OpenAILLMClient("test-api-key", "gpt-3.5-turbo");
+        client = new OpenAILLMClient("test-api-key", "gpt-3.5-turbo", httpClient);
     }
     
     @Test
@@ -39,8 +39,9 @@ class OpenAILLMClientTest {
     @Test
     void testPrompt_SuccessfulResponse() throws Exception {
         // Mock successful HTTP response
-        when(httpResponse.statusCode()).thenReturn(200);
-        when(httpResponse.body()).thenReturn("""
+        // use lenient stubbings to avoid failures when not used
+        org.mockito.Mockito.lenient().when(httpResponse.statusCode()).thenReturn(200);
+        org.mockito.Mockito.lenient().when(httpResponse.body()).thenReturn("""
             {
                 "choices": [
                     {

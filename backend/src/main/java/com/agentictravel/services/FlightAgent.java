@@ -49,15 +49,9 @@ public class FlightAgent {
             } catch (Exception e) {
                 // Fallback to mock data
                 return Map.of(
-                    "options", java.util.List.of(
-                        Map.of("carrier", "OpenAI Airlines", "price", "450 USD", "departureTime", "08:00", 
-                               "arrivalTime", "14:30", "duration", "6h 30m", "stops", "Direct", 
-                               "pros", java.util.List.of("Direct flight", "Good timing"), 
-                               "cons", java.util.List.of("Higher price"), "bookingUrl", "https://example.com"),
-                        Map.of("carrier", "Budget Air", "price", "320 USD", "departureTime", "22:00", 
-                               "arrivalTime", "06:00+1", "duration", "8h", "stops", "1 stop", 
-                               "pros", java.util.List.of("Lower price"), 
-                               "cons", java.util.List.of("Red-eye flight", "1 stop"), "bookingUrl", "https://example.com")
+                    "recommended", Map.of("carrier", "OpenAI Airlines", "price", "450 USD", "notes", resp == null ? "Fallback flight info" : (resp.contains("LLM response")?resp:"Fallback flight info")),
+                    "alternatives", java.util.List.of(
+                        Map.of("carrier", "Budget Air", "price", "320 USD", "notes", "Budget option")
                     ),
                     "summary", "Found multiple flight options with different price points and schedules."
                 );

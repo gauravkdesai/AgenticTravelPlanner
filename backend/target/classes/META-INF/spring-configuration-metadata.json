@@ -1,0 +1,149 @@
+{
+  "groups": [
+    {
+      "name": "agent",
+      "type": "com.agentictravel.config.AgentConfig",
+      "sourceType": "com.agentictravel.config.AgentConfig"
+    },
+    {
+      "name": "agent.event",
+      "type": "com.agentictravel.config.AgentConfig$EventAgentConfig",
+      "sourceType": "com.agentictravel.config.AgentConfig",
+      "sourceMethod": "public com.agentictravel.config.AgentConfig.EventAgentConfig getEvent() "
+    },
+    {
+      "name": "agent.flight",
+      "type": "com.agentictravel.config.AgentConfig$FlightAgentConfig",
+      "sourceType": "com.agentictravel.config.AgentConfig",
+      "sourceMethod": "public com.agentictravel.config.AgentConfig.FlightAgentConfig getFlight() "
+    },
+    {
+      "name": "agent.hotel",
+      "type": "com.agentictravel.config.AgentConfig$HotelAgentConfig",
+      "sourceType": "com.agentictravel.config.AgentConfig",
+      "sourceMethod": "public com.agentictravel.config.AgentConfig.HotelAgentConfig getHotel() "
+    },
+    {
+      "name": "agent.planner",
+      "type": "com.agentictravel.config.AgentConfig$PlannerAgentConfig",
+      "sourceType": "com.agentictravel.config.AgentConfig",
+      "sourceMethod": "public com.agentictravel.config.AgentConfig.PlannerAgentConfig getPlanner() "
+    },
+    {
+      "name": "agent.question",
+      "type": "com.agentictravel.config.AgentConfig$QuestionAgentConfig",
+      "sourceType": "com.agentictravel.config.AgentConfig",
+      "sourceMethod": "public com.agentictravel.config.AgentConfig.QuestionAgentConfig getQuestion() "
+    },
+    {
+      "name": "agent.transport",
+      "type": "com.agentictravel.config.AgentConfig$TransportAgentConfig",
+      "sourceType": "com.agentictravel.config.AgentConfig",
+      "sourceMethod": "public com.agentictravel.config.AgentConfig.TransportAgentConfig getTransport() "
+    },
+    {
+      "name": "agent.weather",
+      "type": "com.agentictravel.config.AgentConfig$WeatherAgentConfig",
+      "sourceType": "com.agentictravel.config.AgentConfig",
+      "sourceMethod": "public com.agentictravel.config.AgentConfig.WeatherAgentConfig getWeather() "
+    },
+    {
+      "name": "openai",
+      "type": "com.agentictravel.config.OpenAIConfig",
+      "sourceType": "com.agentictravel.config.OpenAIConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "agent.event.max-options",
+      "type": "java.lang.Integer",
+      "sourceType": "com.agentictravel.config.AgentConfig$EventAgentConfig"
+    },
+    {
+      "name": "agent.event.timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.agentictravel.config.AgentConfig$EventAgentConfig"
+    },
+    {
+      "name": "agent.flight.max-options",
+      "type": "java.lang.Integer",
+      "sourceType": "com.agentictravel.config.AgentConfig$FlightAgentConfig"
+    },
+    {
+      "name": "agent.flight.timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.agentictravel.config.AgentConfig$FlightAgentConfig"
+    },
+    {
+      "name": "agent.hotel.max-options",
+      "type": "java.lang.Integer",
+      "sourceType": "com.agentictravel.config.AgentConfig$HotelAgentConfig"
+    },
+    {
+      "name": "agent.hotel.timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.agentictravel.config.AgentConfig$HotelAgentConfig"
+    },
+    {
+      "name": "agent.planner.timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.agentictravel.config.AgentConfig$PlannerAgentConfig"
+    },
+    {
+      "name": "agent.question.max-questions",
+      "type": "java.lang.Integer",
+      "sourceType": "com.agentictravel.config.AgentConfig$QuestionAgentConfig"
+    },
+    {
+      "name": "agent.question.timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.agentictravel.config.AgentConfig$QuestionAgentConfig"
+    },
+    {
+      "name": "agent.transport.max-options",
+      "type": "java.lang.Integer",
+      "sourceType": "com.agentictravel.config.AgentConfig$TransportAgentConfig"
+    },
+    {
+      "name": "agent.transport.timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.agentictravel.config.AgentConfig$TransportAgentConfig"
+    },
+    {
+      "name": "agent.weather.timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.agentictravel.config.AgentConfig$WeatherAgentConfig"
+    },
+    {
+      "name": "openai.api-key",
+      "type": "java.lang.String",
+      "sourceType": "com.agentictravel.config.OpenAIConfig"
+    },
+    {
+      "name": "openai.max-retries",
+      "type": "java.lang.Integer",
+      "sourceType": "com.agentictravel.config.OpenAIConfig"
+    },
+    {
+      "name": "openai.max-tokens",
+      "type": "java.lang.Integer",
+      "sourceType": "com.agentictravel.config.OpenAIConfig"
+    },
+    {
+      "name": "openai.model",
+      "type": "java.lang.String",
+      "sourceType": "com.agentictravel.config.OpenAIConfig"
+    },
+    {
+      "name": "openai.temperature",
+      "type": "java.lang.Double",
+      "sourceType": "com.agentictravel.config.OpenAIConfig"
+    },
+    {
+      "name": "openai.timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.agentictravel.config.OpenAIConfig"
+    }
+  ],
+  "hints": []
+}

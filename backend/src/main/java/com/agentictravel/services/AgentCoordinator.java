@@ -1,21 +1,21 @@
 package com.agentictravel.services;
 
-import com.agentictravel.model.Itinerary;
-import com.agentictravel.model.QuestionResponse;
+import com.agentictravel.model.*;
+import com.agentictravel.security.InputSanitizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.agentictravel.model.Booking;
-import com.agentictravel.model.TripRequest;
 import org.springframework.stereotype.Service;
+import com.agentictravel.llm.LLMClient;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.Map;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class AgentCoordinator {
-    private static final Logger log = LoggerFactory.getLogger(AgentCoordinator.class);
+
+    private static final Logger LOG = LoggerFactory.getLogger(AgentCoordinator.class);
+
     private final FlightAgent flightAgent;
     private final TransportAgent transportAgent;
     private final HotelAgent hotelAgent;
@@ -24,7 +24,7 @@ public class AgentCoordinator {
     private final QuestionAgent questionAgent;
     private final ItineraryPlannerAgent plannerAgent;
 
-    public AgentCoordinator(com.agentictravel.llm.LLMClient llm){
+    public AgentCoordinator(LLMClient llm) {
         this.flightAgent = new FlightAgent(llm);
         this.transportAgent = new TransportAgent(llm);
         this.hotelAgent = new HotelAgent(llm);
@@ -38,116 +38,92 @@ public class AgentCoordinator {
         return questionAgent.generateQuestions(request);
     }
 
-    public CompletableFuture<Itinerary> generateItinerary(TripRequest request){
-        // Check if this is a refinement request
-        if (request.amendments != null && !request.amendments.trim().isEmpty() && 
-            request.previousItinerary != null) {
+    public CompletableFuture<Itinerary> generateItinerary(TripRequest request) {
+        if (request.getAmendments() != null && !request.getAmendments().trim().isEmpty() &&
+                request.getPreviousItinerary() != null) {
             return refineItinerary(request);
         }
-        
-        // Run agents in parallel and aggregate a complete Itinerary
-        CompletableFuture<Map<String,Object>> flightsFuture = flightAgent.search(request);
-        CompletableFuture<Map<String,Object>> transportFuture = transportAgent.search(request);
-        CompletableFuture<Map<String,Object>> hotelsFuture = hotelAgent.search(request);
-        CompletableFuture<List<Map<String,Object>>> eventsFuture = eventAgent.search(request);
-        CompletableFuture<Map<String,Object>> weatherFuture = weatherAgent.search(request);
+
+        CompletableFuture<Map<String, Object>> flightsFuture = flightAgent.search(request);
+        CompletableFuture<Map<String, Object>> transportFuture = transportAgent.search(request);
+        CompletableFuture<Map<String, Object>> hotelsFuture = hotelAgent.search(request);
+        CompletableFuture<List<Map<String, Object>>> eventsFuture = eventAgent.search(request);
+        CompletableFuture<Map<String, Object>> weatherFuture = weatherAgent.search(request);
 
         return CompletableFuture.allOf(flightsFuture, transportFuture, hotelsFuture, eventsFuture, weatherFuture)
                 .thenCompose(v -> {
                     try {
-                        Map<String,Object> flights = flightsFuture.join();
-                        Map<String,Object> transport = transportFuture.join();
-                        Map<String,Object> hotels = hotelsFuture.join();
-                        List<Map<String,Object>> events = eventsFuture.join();
-                        Map<String,Object> weather = weatherFuture.join();
-                        
-                        // Create day-by-day itinerary using the planner agent
+                        Map<String, Object> flights = flightsFuture.join();
+                        Map<String, Object> transport = transportFuture.join();
+                        Map<String, Object> hotels = hotelsFuture.join();
+                        List<Map<String, Object>> events = eventsFuture.join();
+                        Map<String, Object> weather = weatherFuture.join();
+
                         return plannerAgent.createDayPlans(request, flights, hotels, transport, events, weather)
                                 .thenApply(dayPlans -> {
                                     Itinerary itinerary = new Itinerary();
                                     itinerary.summary = "Complete itinerary for " + request.tripTitle;
                                     itinerary.dayPlans = dayPlans;
                                     itinerary.notesParsingErrors = new java.util.ArrayList<>();
-                                    
+
                                     try {
-                                        // Map bookings with multiple options
-                                        Booking bookings = new Booking();
-                                        bookings.flights = flights;
-                                        bookings.transport = transport;
-                                        bookings.hotels = hotels;
-                                        itinerary.bookings = bookings;
-                                        
-                                        // Map events
-                                        itinerary.events = events;
-                                        
-                                        // Map weather
-                                        itinerary.weather = weather;
-                                        
+                                        itinerary.bookings = LLMToModelMapper.mapToBooking(flights, transport, hotels);
+                                        itinerary.events = LLMToModelMapper.mapToEvents(events);
+                                        itinerary.weather = LLMToModelMapper.mapToWeather(weather);
+
                                     } catch (Exception e) {
-                                        log.warn("Failed to map itinerary components: {}", e.getMessage());
+                                        LOG.warn("Failed to map itinerary components: {}", e.getMessage());
                                         itinerary.notesParsingErrors.add("Component mapping: " + e.getMessage());
                                     }
-                                    
+
                                     return itinerary;
                                 });
                     } catch (Exception e) {
-                        log.error("Error in itinerary generation: {}", e.getMessage(), e);
+                        LOG.error("Error in itinerary generation: {}", e.getMessage(), e);
                         throw new RuntimeException("Failed to generate itinerary", e);
                     }
                 });
     }
-    
+
     private CompletableFuture<Itinerary> refineItinerary(TripRequest request) {
-        log.info("Refining itinerary based on amendments: {}", request.amendments);
-        
-        // For refinement, we can either re-run all agents or just the planner
-        // For now, let's re-run all agents to get fresh options
-        CompletableFuture<Map<String,Object>> flightsFuture = flightAgent.search(request);
-        CompletableFuture<Map<String,Object>> transportFuture = transportAgent.search(request);
-        CompletableFuture<Map<String,Object>> hotelsFuture = hotelAgent.search(request);
-        CompletableFuture<List<Map<String,Object>>> eventsFuture = eventAgent.search(request);
-        CompletableFuture<Map<String,Object>> weatherFuture = weatherAgent.search(request);
+        LOG.info("Refining itinerary based on amendments: {}", request.getAmendments());
+
+        CompletableFuture<Map<String, Object>> flightsFuture = flightAgent.search(request);
+        CompletableFuture<Map<String, Object>> transportFuture = transportAgent.search(request);
+        CompletableFuture<Map<String, Object>> hotelsFuture = hotelAgent.search(request);
+        CompletableFuture<List<Map<String, Object>>> eventsFuture = eventAgent.search(request);
+        CompletableFuture<Map<String, Object>> weatherFuture = weatherAgent.search(request);
 
         return CompletableFuture.allOf(flightsFuture, transportFuture, hotelsFuture, eventsFuture, weatherFuture)
                 .thenCompose(v -> {
                     try {
-                        Map<String,Object> flights = flightsFuture.join();
-                        Map<String,Object> transport = transportFuture.join();
-                        Map<String,Object> hotels = hotelsFuture.join();
-                        List<Map<String,Object>> events = eventsFuture.join();
-                        Map<String,Object> weather = weatherFuture.join();
-                        
-                        // Refine the day plans based on amendments
-                        return plannerAgent.refineDayPlans(request, request.previousItinerary.dayPlans, request.amendments)
+                        Map<String, Object> flights = flightsFuture.join();
+                        Map<String, Object> transport = transportFuture.join();
+                        Map<String, Object> hotels = hotelsFuture.join();
+                        List<Map<String, Object>> events = eventsFuture.join();
+                        Map<String, Object> weather = weatherFuture.join();
+
+                        return plannerAgent.refineDayPlans(request, request.getPreviousItinerary().dayPlans, request.getAmendments())
                                 .thenApply(dayPlans -> {
                                     Itinerary itinerary = new Itinerary();
                                     itinerary.summary = "Refined itinerary for " + request.tripTitle;
                                     itinerary.dayPlans = dayPlans;
                                     itinerary.notesParsingErrors = new java.util.ArrayList<>();
-                                    
+
                                     try {
-                                        // Map bookings with multiple options
-                                        Booking bookings = new Booking();
-                                        bookings.flights = flights;
-                                        bookings.transport = transport;
-                                        bookings.hotels = hotels;
-                                        itinerary.bookings = bookings;
-                                        
-                                        // Map events
-                                        itinerary.events = events;
-                                        
-                                        // Map weather
-                                        itinerary.weather = weather;
-                                        
+                                        itinerary.bookings = LLMToModelMapper.mapToBooking(flights, transport, hotels);
+                                        itinerary.events = LLMToModelMapper.mapToEvents(events);
+                                        itinerary.weather = LLMToModelMapper.mapToWeather(weather);
+
                                     } catch (Exception e) {
-                                        log.warn("Failed to map refined itinerary components: {}", e.getMessage());
+                                        LOG.warn("Failed to map refined itinerary components: {}", e.getMessage());
                                         itinerary.notesParsingErrors.add("Component mapping: " + e.getMessage());
                                     }
-                                    
+
                                     return itinerary;
                                 });
                     } catch (Exception e) {
-                        log.error("Error in itinerary refinement: {}", e.getMessage(), e);
+                        LOG.error("Error in itinerary refinement: {}", e.getMessage(), e);
                         throw new RuntimeException("Failed to refine itinerary", e);
                     }
                 });
